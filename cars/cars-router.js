@@ -1,10 +1,10 @@
 const express = require('express');
-const db = require('../data/db-config.js');
+const db = require('../data/db-config');
 
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    db('cars')
+    db('car-dealer')
       .then(cars => {
           res.json(cars);
       })
@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     const { id } = req.params;
 
-    db('cars').where({ id }).first()
+    db('car-dealer').where({ id }).first()
     .then(cars => {
       res.json(cars);
     })
@@ -27,9 +27,9 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
     const carData = req.body;
-    db('cars').insert(carData)
+    db('car-dealer').insert(carData)
       .then( ids => {
-        db('cars').where({ id: ids[0] })
+        db('car-dealer').where({ id: ids[0] })
           .then(newCarEntry => {
               res.status(201).json(newCarEntry);
           });
